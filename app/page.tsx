@@ -28,7 +28,8 @@ export default function Home() {
           <span>Arc<span className={styles.logoAccent}>Kit</span></span>
         </div>
         <div className={styles.headerRight}>
-          <a
+          <w3m-button />
+          
             href="https://testnet.arcscan.app"
             target="_blank"
             rel="noreferrer"
@@ -36,7 +37,7 @@ export default function Home() {
           >
             Explorer ↗
           </a>
-          <a
+          
             href="https://faucet.circle.com"
             target="_blank"
             rel="noreferrer"
@@ -127,7 +128,7 @@ export default function Home() {
             <p style={{ fontSize: 13, color: 'var(--text2)', marginBottom: 10 }}>
               Read the full documentation
             </p>
-            <a
+            
               href="https://docs.arc.network/build"
               target="_blank"
               rel="noreferrer"
