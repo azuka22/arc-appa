@@ -7,6 +7,14 @@ import SwapPanel from '@/components/SwapPanel';
 import UnifiedBalancePanel from '@/components/UnifiedBalancePanel';
 import styles from './page.module.css';
 
+declare global {
+  namespace JSX {
+    interface IntrinsicElements {
+      'w3m-button': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
+    }
+  }
+}
+
 type Tab = 'send' | 'bridge' | 'swap' | 'unified';
 
 const TABS: { id: Tab; label: string; icon: string; color: string; desc: string }[] = [
@@ -21,7 +29,6 @@ export default function Home() {
 
   return (
     <div className={styles.page}>
-      {/* Header */}
       <header className={styles.header}>
         <div className={styles.logo}>
           <span className={styles.logoIcon}>◆</span>
@@ -29,26 +36,11 @@ export default function Home() {
         </div>
         <div className={styles.headerRight}>
           <w3m-button />
-          
-            href="https://testnet.arcscan.app"
-            target="_blank"
-            rel="noreferrer"
-            className={styles.explorerLink}
-          >
-            Explorer ↗
-          </a>
-          
-            href="https://faucet.circle.com"
-            target="_blank"
-            rel="noreferrer"
-            className={styles.faucetBtn}
-          >
-            Faucet
-          </a>
+          <a href="https://testnet.arcscan.app" target="_blank" rel="noreferrer" className={styles.explorerLink}>Explorer ↗</a>
+          <a href="https://faucet.circle.com" target="_blank" rel="noreferrer" className={styles.faucetBtn}>Faucet</a>
         </div>
       </header>
 
-      {/* Hero */}
       <section className={styles.hero}>
         <div className={styles.heroGlow} />
         <p className={styles.heroTag}>Built on Arc Network · Powered by Circle</p>
@@ -56,12 +48,9 @@ export default function Home() {
           Multichain Finance<br />
           <span className={styles.heroGradient}>In a Few Lines of Code</span>
         </h1>
-        <p className={styles.heroSub}>
-          Send · Bridge · Swap · Unified Balance — all via Arc App Kit SDK
-        </p>
+        <p className={styles.heroSub}>Send · Bridge · Swap · Unified Balance — all via Arc App Kit SDK</p>
       </section>
 
-      {/* Tab Nav */}
       <nav className={styles.tabs}>
         {TABS.map((tab) => (
           <button
@@ -77,7 +66,6 @@ export default function Home() {
         ))}
       </nav>
 
-      {/* Panel */}
       <main className={styles.main}>
         <div className={styles.panel}>
           {activeTab === 'send'    && <SendPanel />}
@@ -86,56 +74,25 @@ export default function Home() {
           {activeTab === 'unified' && <UnifiedBalancePanel />}
         </div>
 
-        {/* Side info */}
         <aside className={styles.aside}>
           <div className={styles.infoCard}>
             <h3 className={styles.infoTitle}>🔗 Arc Testnet</h3>
-            <div className={styles.infoRow}>
-              <span>Chain ID</span>
-              <span className="mono">2911</span>
-            </div>
-            <div className={styles.infoRow}>
-              <span>RPC</span>
-              <span className="mono" style={{ fontSize: 11 }}>testnet.arc.network</span>
-            </div>
-            <div className={styles.infoRow}>
-              <span>Native Token</span>
-              <span className="mono">ETH</span>
-            </div>
-            <div className={styles.infoRow}>
-              <span>Stablecoin</span>
-              <span className="mono">USDC · EURC</span>
-            </div>
+            <div className={styles.infoRow}><span>Chain ID</span><span className="mono">2911</span></div>
+            <div className={styles.infoRow}><span>RPC</span><span className="mono" style={{ fontSize: 11 }}>testnet.arc.network</span></div>
+            <div className={styles.infoRow}><span>Native Token</span><span className="mono">ETH</span></div>
+            <div className={styles.infoRow}><span>Stablecoin</span><span className="mono">USDC · EURC</span></div>
           </div>
 
           <div className={styles.infoCard}>
             <h3 className={styles.infoTitle}>📦 App Kit SDK</h3>
-            <div className={styles.infoRow}>
-              <span>Package</span>
-              <span className="mono" style={{ fontSize: 11 }}>@circle-fin/app-kit</span>
-            </div>
-            <div className={styles.infoRow}>
-              <span>Adapter</span>
-              <span className="mono" style={{ fontSize: 11 }}>adapter-viem-v2</span>
-            </div>
-            <div className={styles.infoRow}>
-              <span>Protocol</span>
-              <span className="mono">CCTP · Gateway</span>
-            </div>
+            <div className={styles.infoRow}><span>Package</span><span className="mono" style={{ fontSize: 11 }}>@circle-fin/app-kit</span></div>
+            <div className={styles.infoRow}><span>Adapter</span><span className="mono" style={{ fontSize: 11 }}>adapter-viem-v2</span></div>
+            <div className={styles.infoRow}><span>Protocol</span><span className="mono">CCTP · Gateway</span></div>
           </div>
 
           <div className={styles.docsCard}>
-            <p style={{ fontSize: 13, color: 'var(--text2)', marginBottom: 10 }}>
-              Read the full documentation
-            </p>
-            
-              href="https://docs.arc.network/build"
-              target="_blank"
-              rel="noreferrer"
-              className={styles.docsBtn}
-            >
-              docs.arc.network ↗
-            </a>
+            <p style={{ fontSize: 13, color: 'var(--text2)', marginBottom: 10 }}>Read the full documentation</p>
+            <a href="https://docs.arc.network/build" target="_blank" rel="noreferrer" className={styles.docsBtn}>docs.arc.network ↗</a>
           </div>
         </aside>
       </main>
