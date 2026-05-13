@@ -7,14 +7,6 @@ import SwapPanel from '@/components/SwapPanel';
 import UnifiedBalancePanel from '@/components/UnifiedBalancePanel';
 import styles from './page.module.css';
 
-declare global {
-  namespace JSX {
-    interface IntrinsicElements {
-      'w3m-button': React.DetailedHTMLProps<React.HTMLAttributes<HTMLElement>, HTMLElement>;
-    }
-  }
-}
-
 type Tab = 'send' | 'bridge' | 'swap' | 'unified';
 
 const TABS: { id: Tab; label: string; icon: string; color: string; desc: string }[] = [
