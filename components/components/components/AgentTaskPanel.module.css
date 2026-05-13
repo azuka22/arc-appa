@@ -1,0 +1,135 @@
+.panel {
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 1.5rem;
+  max-width: 560px;
+}
+
+.title {
+  font-size: 18px;
+  font-weight: 600;
+  color: #111827;
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge {
+  font-size: 11px;
+  font-weight: 500;
+  background: #E6F1FB;
+  color: #185FA5;
+  border-radius: 20px;
+  padding: 3px 10px;
+}
+
+.desc {
+  font-size: 13px;
+  color: #6b7280;
+  margin-bottom: 1.25rem;
+  line-height: 1.6;
+}
+
+.field {
+  margin-bottom: 1rem;
+}
+
+.field label {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #6b7280;
+  margin-bottom: 5px;
+}
+
+.field select,
+.field textarea {
+  width: 100%;
+  padding: 8px 12px;
+  font-size: 13px;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #f9fafb;
+  color: #111827;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+.field select:focus,
+.field textarea:focus {
+  border-color: #3b82f6;
+  background: #fff;
+}
+
+.field textarea {
+  resize: vertical;
+  line-height: 1.5;
+}
+
+.btn {
+  width: 100%;
+  padding: 10px;
+  font-size: 14px;
+  font-weight: 500;
+  background: #1d4ed8;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.btn:hover:not(:disabled) { background: #1e40af; }
+.btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+.log {
+  margin-top: 1rem;
+  background: #0f172a;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-family: monospace;
+  font-size: 12px;
+  line-height: 1.8;
+  max-height: 180px;
+  overflow-y: auto;
+}
+
+.log-info    { color: #60a5fa; }
+.log-success { color: #34d399; }
+.log-error   { color: #f87171; }
+.log-dim     { color: #94a3b8; }
+
+.result {
+  margin-top: 1rem;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.resultRow {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  gap: 12px;
+}
+
+.resultRow span:first-child {
+  color: #6b7280;
+  font-weight: 500;
+  flex-shrink: 0;
+}
+
+.resultRow code {
+  font-size: 12px;
+  background: #dcfce7;
+  padding: 2px 8px;
+  border-radius: 6px;
+  color: #166534;
+}
