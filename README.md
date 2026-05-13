@@ -1,9 +1,48 @@
-# Arc App Kit Demo — Next.js + Vercel
+# Arc App Kit Demo — Next.js + Vercel + AgentTask
 
-A full-stack Next.js app showcasing all 4 Arc App Kit capabilities:
-**Send · Bridge · Swap · Unified Balance**
+A full-stack Next.js app showcasing Arc App Kit capabilities and **AgentTask** — an AI agent that autonomously pays for services using a scoped USDC wallet powered by Circle Agent Stack.
 
 Built with `@circle-fin/app-kit` and deployable to Vercel in minutes.
+
+---
+
+## 🧩 What's included
+
+| Feature | Description |
+|---|---|
+| **Send** | Transfer USDC across chains |
+| **Bridge** | Cross-chain bridging (Sepolia → Arc Testnet) |
+| **Swap** | Swap USDC ↔ EURC on Arc |
+| **Unified Balance** | Deposit + spend across chains |
+| **🤖 AgentTask** | AI agent with scoped USDC wallet — pays for APIs automatically |
+
+---
+
+## 🤖 AgentTask — Circle Agent Stack
+
+AgentTask is an AI task agent built on top of **Circle Agent Stack**. It:
+
+1. Creates a scoped **Agent Wallet** with spending policies (per-tx cap, daily cap, recipient allowlist)
+2. Funds the wallet with USDC (testnet faucet)
+3. Searches the **Agent Marketplace** for the right service
+4. Pays via **Nanopayments (x402)** — gas-free, sub-cent, settled in <1s on Arc
+5. Executes the task and returns the result
+
+### Supported tasks
+
+| Task | Service | Price/call |
+|---|---|---|
+| `translate` | LinguaAgent v2 | $0.008 USDC |
+| `data` | DataStream Pro | $0.002 USDC |
+| `summarize` | SummaryBot | $0.012 USDC |
+| `image` | PixelAgent | $0.035 USDC |
+
+### Circle Agent Stack components used
+
+- ✅ **Agent Wallets** — scoped USDC wallet per agent session
+- ✅ **Agent Marketplace** — service discovery
+- ✅ **Nanopayments (x402)** — gas-free payments on Arc
+- ✅ **Circle CLI** — wallet creation, policy, funding, payment
 
 ---
 
@@ -12,12 +51,19 @@ Built with `@circle-fin/app-kit` and deployable to Vercel in minutes.
 ### 1. Clone & Install
 
 ```bash
-git clone <your-repo>
-cd arc-app
+git clone https://github.com/azuka22/arc-appa
+cd arc-appa
 npm install
 ```
 
-### 2. Set up environment variables
+### 2. Install Circle CLI
+
+```bash
+npm install -g @circle-fin/cli
+circle auth login
+```
+
+### 3. Set up environment variables
 
 ```bash
 cp .env.example .env.local
@@ -26,14 +72,11 @@ cp .env.example .env.local
 Edit `.env.local`:
 
 ```env
-# Your testnet wallet private key
 PRIVATE_KEY=0x...
-
-# From https://console.circle.com (free, required for Swap)
 KIT_KEY=your_kit_key_here
 ```
 
-### 3. Run locally
+### 4. Run locally
 
 ```bash
 npm run dev
@@ -42,97 +85,39 @@ npm run dev
 
 ---
 
-## ☁️ Deploy to Vercel
-
-### Option A — Vercel CLI
+## 🤖 Run AgentTask via CLI
 
 ```bash
-npm i -g vercel
-vercel
-```
-
-### Option B — GitHub + Vercel Dashboard
-
-1. Push this repo to GitHub
-2. Go to [vercel.com/new](https://vercel.com/new)
-3. Import your repo
-4. Add environment variables:
-   - `PRIVATE_KEY` → your testnet wallet private key
-   - `KIT_KEY` → your Circle Console kit key
-5. Click **Deploy**
-
----
-
-## 📦 Arc App Kit — Package Summary
-
-| Package | Purpose |
-|---|---|
-| `@circle-fin/app-kit` | Core SDK (Send, Bridge, Swap, Unified Balance) |
-| `@circle-fin/adapter-viem-v2` | Viem wallet adapter |
-| `viem` | EVM wallet/provider library |
-
----
-
-## 🔑 Prerequisites
-
-- **Node.js v22+**
-- **Testnet wallet** funded with testnet USDC + ETH
-  - Get testnet funds: [faucet.circle.com](https://faucet.circle.com)
-- **Arc Testnet RPC**: [docs.arc.network/arc/references/connect-to-arc](https://docs.arc.network/arc/references/connect-to-arc)
-- **Circle Console Kit Key** (for Swap): [console.circle.com](https://console.circle.com)
-
----
-
-## 🗂️ Project Structure
-
-```
-arc-app/
-├── app/
-│   ├── layout.tsx          # Root layout
-│   ├── page.tsx            # Main dashboard
-│   ├── globals.css         # Global styles
-│   └── api/
-│       ├── send/route.ts           # POST /api/send
-│       ├── bridge/route.ts         # POST /api/bridge
-│       ├── swap/route.ts           # POST /api/swap
-│       └── unified-balance/route.ts # POST /api/unified-balance
-├── components/
-│   ├── SendPanel.tsx
-│   ├── BridgePanel.tsx
-│   ├── SwapPanel.tsx
-│   ├── UnifiedBalancePanel.tsx
-│   └── panel.module.css
-├── .env.example
-├── vercel.json
-└── README.md
+./agent/scripts/demo.sh data "BTC,ETH,SOL"
+npx ts-node agent/src/index.ts translate "Hello, world!"
+npx ts-node agent/src/index.ts data "BTC"
+npx ts-node agent/src/index.ts summarize "https://example.com/article"
+npx ts-node agent/src/index.ts image "A futuristic city at night"
 ```
 
 ---
 
 ## 📖 API Routes
 
-### `POST /api/send`
+### `POST /api/agent`
+
 ```json
-{ "chain": "Arc_Testnet", "token": "USDC", "to": "0x...", "amount": "1.00" }
+{
+  "taskType": "data",
+  "input": "BTC,ETH,SOL",
+  "budgetUsdc": 0.10
+}
 ```
 
-### `POST /api/bridge`
+Response:
 ```json
-{ "fromChain": "Ethereum_Sepolia", "toChain": "Arc_Testnet", "amount": "1.00" }
-```
-
-### `POST /api/swap`
-```json
-{ "chain": "Arc_Testnet", "tokenIn": "USDC", "tokenOut": "EURC", "amountIn": "1.00" }
-```
-
-### `POST /api/unified-balance`
-```json
-// Deposit
-{ "mode": "deposit", "fromChain": "Base_Sepolia", "amount": "1.00" }
-
-// Spend
-{ "mode": "spend", "spendChain": "Arc_Testnet", "recipient": "0x...", "amount": "1.50" }
+{
+  "success": true,
+  "walletAddress": "0x7f3a...c82b",
+  "serviceUsed": "datastream-pro",
+  "amountPaid": 0.002,
+  "output": "[datastream-pro] BTC: $68,420 | ETH: $3,210 | SOL: $142"
+}
 ```
 
 ---
@@ -140,10 +125,9 @@ arc-app/
 ## 🔗 Resources
 
 - [Arc Docs](https://docs.arc.network)
-- [App Kit Overview](https://docs.arc.network/app-kit)
-- [Supported Blockchains](https://docs.arc.network/app-kit/references/supported-blockchains)
-- [Block Explorer](https://testnet.arcscan.app)
+- [Circle Agent Stack](https://agents.circle.com)
 - [Circle Faucet](https://faucet.circle.com)
+- [Arc Block Explorer](https://testnet.arcscan.app)
 
 ---
 
